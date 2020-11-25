@@ -15,10 +15,6 @@ Parameters:
   PrivateSubnets:
     Type: List<AWS::EC2::Subnet::Id>
 
-  ComputeSecurityGroup:
-    Description: Select the Compute Security Group
-    Type: AWS::EC2::SecurityGroup::Id
-
 Resources:
   DBCredentials:
     Type: AWS::SecretsManager::Secret
@@ -53,11 +49,6 @@ Resources:
       GroupDescription: !Sub ${Tag} Aurora Security Group
       VpcId:
         Ref: VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
-          SourceSecurityGroupId: !Ref ComputeSecurityGroup
       Tags:
         - Key: App
           Value: !Ref Tag
@@ -70,8 +61,8 @@ Resources:
       MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref DBCredentials, ':SecretString:username}}' ]]
       MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref DBCredentials, ':SecretString:password}}' ]]
       DBClusterIdentifier: !Ref AWS::StackName
-      Engine: aurora-mysql
-      EngineVersion: 5.7.12
+      Engine: aurora-postfresql
+      EngineVersion: 10.12
       EngineMode: serverless
       ScalingConfiguration:
         AutoPause: true
