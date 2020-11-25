@@ -61,7 +61,7 @@ Resources:
       MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref DBCredentials, ':SecretString:username}}' ]]
       MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref DBCredentials, ':SecretString:password}}' ]]
       DBClusterIdentifier: !Ref AWS::StackName
-      Engine: aurora-postfresql
+      Engine: aurora-postgresql
       EngineVersion: 10.12
       EngineMode: serverless
       ScalingConfiguration:
